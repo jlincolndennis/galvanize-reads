@@ -10,8 +10,8 @@ router.get('/books', function(req, res, next) {
   res.render('books');
 });
 
-router.get('/authors', function(req, res, next) {
-  res.render('authors');
-});
+// router.get('/authors', function(req, res, next) {
+//   res.render('authors');
+// });
 
 module.exports = router;
