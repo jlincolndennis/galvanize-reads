@@ -23,12 +23,12 @@
   {{/authorbooks}}
   <label for="">Add A Book</label>
   <br>
-  <select class="" name="">
+
     {{#books}}
-    <option value='{{this}}'>{{this}}</option>
+    <input type="checkbox" name="name" value=""> {{this}}<br>
     {{/books}}
 
-  </select>
+  
   <br><br>
   <input type="submit" name="name" value="SEND THAT SHIT">
 </form>

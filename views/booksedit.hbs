@@ -22,10 +22,10 @@
   {{#authors}}
   <p>{{author}} <a href='/authors/{{id}}/delete'>Delete</a></p>
   {{/authors}}
-  <select class="" name="">
-    <option>Pick something</option>
+
+
     {{#bookauthors}}
-    <option>{{first_name}} {{last_name}}</option>
+    <input type="checkbox" name="name" value=""> {{first_name}} {{last_name}}<br>
     {{/bookauthors}}
 
   </select>
