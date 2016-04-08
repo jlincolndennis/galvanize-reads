@@ -74,5 +74,8 @@ nav {
   width: 75vw;
   padding: 10px; }
 
+.author-headshot {
+  width: 75px; }
+
 * {
   font-family: 'Varela Round', sans-serif; }

@@ -1,13 +1,13 @@
 
 <section class='author-panel'>
-  <img src="{{portrait_url}}" alt="" />
-<h3>{{first_name}} {{last_name}}</h3>
+  <img src="{{author.portrait_url}}" alt="" />
+<h3>{{author.first_name}} {{author.last_name}}</h3>
 <button type="button" name="button">Edit</button>
 <button type="button" name="button">Delete</button>
-<p>{{biography}}</p>
+<p>{{author.biography}}</p>
 <div class='books'>
   <h4>Books!</h4>
-
-  <p></p>
-
+{{#books}}
+  <p>{{title}}</p>
+{{/books}}
 </section>
