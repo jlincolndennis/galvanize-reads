@@ -15,14 +15,15 @@ router.get('/', function(req, res, next){
         url: authors[i].portrait_url,
         bio: authors[i].biography,
         titles: []});
+        console.log(">>>>>>>>>",authorz)
       }
-
       return knex('authors')
       .innerJoin('bibliography', 'authors.id', 'bibliography.author_id')
       .innerJoin('books', 'bibliography.book_id', 'books.id')
       .select('books.title', 'bibliography.author_id')
     })
     .then(function(data){
+      console.log(data);
       for (var i = 0; i < authorz.length; i++) {
         for (var j = 0; j < data.length; j++) {
           if (authorz[i].id == data[j].author_id){
@@ -30,6 +31,7 @@ router.get('/', function(req, res, next){
           }
         }
       }
+      console.log(authorz);
       res.render('authors', {authors: authorz, books: authorz});
     })
   })
