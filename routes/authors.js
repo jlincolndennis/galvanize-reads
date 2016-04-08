@@ -36,6 +36,25 @@ router.get('/', function(req, res, next){
     })
   })
 
+  router.get('/:id/edit', function(req, res, next){
+    return knex('authors')
+    .where('authors.id', req.params.id)
+    .innerJoin('bibliography', 'authors.id', 'bibliography.author_id')
+    .innerJoin('books', 'bibliography.book_id', 'books.id')
+    .select('books.title', 'authors.first_name', 'authors.last_name', 'authors.biography', 'authors.portrait_url')
+    .then(function(data){
+      var books=[];
+      for (var i = 0; i < data.length; i++) {
+        books.push(data[i].title)
+      }
+      res.render('authoredit', {books: books, author: data[0]})
+    })
+  })
+
+  router.get('/add', function(req, res, next){
+    res.render('authoradd');
+  })
+
 
   router.get('/:id', function (req, res, next){
     return knex('authors')
@@ -51,6 +70,5 @@ router.get('/', function(req, res, next){
       res.render('authordetail',{books: books, author: data[0]});
     })
   })
-
 
 module.exports = router;
