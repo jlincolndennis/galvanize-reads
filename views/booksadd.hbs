@@ -1,28 +1,28 @@
 <form action="index.html" method="post">
-  <label for="">First Name</label>
+  <label for="">Title</label>
   <br>
   <input type="text"value="">
   <br><br>
-  <label for="">Last Name</label>
+  <label for="">Genre</label>
   <br>
   <input type="text"value="">
   <br><br>
-  <label for="">Portrait Url</label>
+  <label for="">Cover Url</label>
   <br>
   <input type="text"value="">
   <br><br>
-  <label for="">Biography</label>
+  <label for="">What is this fuckin' book about, yo?</label>
   <br>
   <textarea>
   </textarea>
   <br><br>
-  <label for="">Books</label>
+  <label for="">Peeps!</label>
   <br>
   <select class="" name="">
     <option>Pick something</option>
-    {{#books}}
-    <option>{{title}}</option>
-    {{/books}}
+    {{#authors}}
+    <option>{{author}}</option>
+    {{/authors}}
 
   </select>
   <br><br>

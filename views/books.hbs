@@ -1,10 +1,10 @@
-<h2>Lookin' Good, Linc!</h2>
+<h2>Everything is awful, Linc!</h2>
 {{#books}}
 <section class='books-panel'>
   <img src="{{url}}" alt="" />
-<h3>{{title}}</h3>
-<button type="button" name="button">Edit</button>
-<button type="button" name="button">Delete</button>
+<h3><a href='/books/{{id}}'>{{title}}</a></h3>
+<a href='/books/{{id}}/edit'><button type="button" name="button">Edit</button></a>
+<a href="/books/{{id}}/delete"><button type="button" name="button">Delete</button></a>
 <p>{{desc}}</p>
 <div class='authors'>
   <h4>Peeps!</h4>

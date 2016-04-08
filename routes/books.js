@@ -34,12 +34,44 @@ router.get('/', function(req, res, next) {
   })
 });
 
+router.get('/add', function(req, res, next){
+  return knex('authors')
+  .then(function(peeps){
+    var peepsList = []
+    for (var i = 0; i < peeps.length; i++) {
+      peepsList.push({id: peeps[i].id, author: (peeps[i].first_name+" "+peeps[i].last_name)})
+    }
+    res.render('booksadd', {authors: peepsList})
+  })
+})
+
+router.get('/:id/edit', function(req, res, next){
+  return knex('books')
+  .where('books.id', req.params.id)
+  .innerJoin('bibliography', 'books.id', 'bibliography.book_id')
+  .innerJoin('authors', 'bibliography.author_id', 'authors.id')
+  .select('books.title', 'authors.id','authors.first_name', 'authors.last_name', 'books.genre', 'books.description', 'books.cover_url','books.id')
+  .then(function(data){
+    var authors=[];
+    for (var i = 0; i < data.length; i++) {
+      authors.push({id: data[i].id, author: data[i].first_name+" "+data[i].last_name})
+    }
+    return knex('authors').select('first_name', 'last_name')
+    .then(function(peeps){
+      console.log(data)
+      res.render('booksedit', {book: data[0], bookauthors: peeps, authors: authors})
+
+    })
+  })
+})
+
+
 router.get('/:id', function (req, res, next){
   return knex('books')
   .where('books.id', req.params.id)
   .innerJoin('bibliography', 'books.id', 'bibliography.book_id')
   .innerJoin('authors', 'bibliography.author_id', 'authors.id')
-  .select('books.title', 'authors.first_name', 'authors.last_name', 'books.description', 'books.cover_url')
+  .select('books.title', 'authors.first_name', 'authors.last_name', 'books.description', 'books.cover_url', 'books.id')
   .then(function(data){
     console.log(data);
     var authors=[];

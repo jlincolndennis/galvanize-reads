@@ -15,7 +15,7 @@ router.get('/', function(req, res, next){
         url: authors[i].portrait_url,
         bio: authors[i].biography,
         titles: []});
-        console.log(">>>>>>>>>",authorz)
+
       }
       return knex('authors')
       .innerJoin('bibliography', 'authors.id', 'bibliography.author_id')
@@ -41,18 +41,30 @@ router.get('/', function(req, res, next){
     .where('authors.id', req.params.id)
     .innerJoin('bibliography', 'authors.id', 'bibliography.author_id')
     .innerJoin('books', 'bibliography.book_id', 'books.id')
-    .select('books.title', 'authors.first_name', 'authors.last_name', 'authors.biography', 'authors.portrait_url')
+    .select('books.title', 'books.id','authors.first_name', 'authors.last_name', 'authors.biography', 'authors.portrait_url')
     .then(function(data){
       var books=[];
       for (var i = 0; i < data.length; i++) {
-        books.push(data[i].title)
+        books.push({title: data[i].title, id: data[i].id})
       }
-      res.render('authoredit', {books: books, author: data[0]})
+      return knex('books').pluck('title')
+      .then(function(bookys){
+        console.log(books)
+        res.render('authoredit', {authorbooks: books, books: bookys, author: data[0]})
+
+      })
     })
   })
 
   router.get('/add', function(req, res, next){
-    res.render('authoradd');
+    return knex('books')
+    .then(function(bookys){
+      var booksList = []
+      for (var i = 0; i < bookys.length; i++) {
+        booksList.push({id: bookys[i].id, title: bookys[i].title})
+      }
+      res.render('authoradd', {books: bookys})
+    })
   })
 
 
@@ -61,7 +73,7 @@ router.get('/', function(req, res, next){
     .where('authors.id', req.params.id)
     .innerJoin('bibliography', 'authors.id', 'bibliography.author_id')
     .innerJoin('books', 'bibliography.book_id', 'books.id')
-    .select('books.title', 'authors.first_name', 'authors.last_name', 'authors.biography', 'authors.portrait_url')
+    .select('books.title', 'authors.first_name', 'authors.last_name', 'authors.biography', 'authors.portrait_url', 'authors.id')
     .then(function(data){
       var books=[];
       for (var i = 0; i < data.length; i++) {

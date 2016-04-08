@@ -17,10 +17,16 @@
     {{author.biography}}
   </textarea>
   <br><br>
-  <label for="">Books</label>
+  <label>Books</label>
+  {{#authorbooks}}
+  <p>{{title}}<a href="/books/{{id}}/delete"/>delete</a></p>
+  {{/authorbooks}}
+  <label for="">Add A Book</label>
   <br>
   <select class="" name="">
-
+    {{#books}}
+    <option value='{{this}}'>{{this}}</option>
+    {{/books}}
 
   </select>
   <br><br>

@@ -2,8 +2,8 @@
 <section class='book-panel'>
   <img src="{{books.cover_url}}" alt="" />
 <h3>{{books.title}}</h3>
-<button type="button" name="button">Edit</button>
-<button type="button" name="button">Delete</button>
+<a href='/books/{{books.id}}/edit'><button type="button" name="button">Edit</button></a>
+<a href="/books/{{books.id}}/delete"><button type="button" name="button">Delete</button></a>
 <p>{{books.description}}</p>
 <div class='books'>
   <h4>Authors!</h4>
