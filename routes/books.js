@@ -90,8 +90,9 @@ router.get('/:id/edit', function(req, res, next){
   .where('books.id', req.params.id)
   .innerJoin('bibliography', 'books.id', 'bibliography.book_id')
   .innerJoin('authors', 'bibliography.author_id', 'authors.id')
-  .select('books.title', 'authors.id','authors.first_name', 'authors.last_name', 'books.genre', 'books.description', 'books.cover_url','books.id')
+  .select('books.title', 'authors.id','authors.first_name', 'authors.last_name', 'books.genre', 'books.description', 'books.cover_url')
   .then(function(data){
+    console.log('Poop', data)
     var authors=[];
     for (var i = 0; i < data.length; i++) {
       authors.push({id: data[i].id,
@@ -101,8 +102,7 @@ router.get('/:id/edit', function(req, res, next){
     }
     return knex('authors').select('id','first_name', 'last_name')
     .then(function(peeps){
-      console.log('Peeeeeeeeeeeeep',peeps)
-      res.render('booksedit', {book: data[0], bookauthors: peeps, authors: authors})
+      res.render('booksedit', {bookID: req.params.id, book: data[0], bookauthors: peeps, authors: authors})
 
     })
   })
