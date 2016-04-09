@@ -45,6 +45,30 @@ router.get('/add', function(req, res, next){
   })
 })
 
+router.post('/add', function(req, res, next){
+  var authors = req.body.author_id;
+  var authorsArr = authors instanceof Array ? authors : [authors];
+
+  knex('books')
+  .insert({
+          title: req.body.title,
+          genre: req.body.genre,
+          cover_url: req.body.cover_url,
+          description: req.body.description
+  })
+  .returning('id')
+  .then(function(id){
+    var anotherAuthorsArrFullOfObjects = authorsArr.map(function(author_id){
+      return ({book_id: id[0], author_id: author_id})
+    })
+    return knex('bibliography')
+            .insert(anotherAuthorsArrFullOfObjects)
+            .then(function(data){
+              res.redirect('/books')
+            })
+  })
+})
+
 router.get('/:id/edit', function(req, res, next){
   return knex('books')
   .where('books.id', req.params.id)
