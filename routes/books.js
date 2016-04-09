@@ -92,7 +92,7 @@ router.get('/:id/edit', function(req, res, next){
   .innerJoin('authors', 'bibliography.author_id', 'authors.id')
   .select('books.title', 'authors.id','authors.first_name', 'authors.last_name', 'books.genre', 'books.description', 'books.cover_url')
   .then(function(data){
-    console.log('Poop', data)
+
     var authors=[];
     for (var i = 0; i < data.length; i++) {
       authors.push({id: data[i].id,
@@ -109,7 +109,6 @@ router.get('/:id/edit', function(req, res, next){
 })
 
 router.post('/:id/edit', function(req, res, next){
-  console.log(req.body);
   var authors = req.body.author_id;
   var authorsArr = authors instanceof Array ? authors : [authors];
 

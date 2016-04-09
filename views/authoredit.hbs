@@ -1,29 +1,29 @@
-<form action="index.html" method="post">
+<form action="/authors/{{authorID}}/edit" method="post">
   <label for="">First Name</label>
   <br>
-  <input type="text"value="{{author.first_name}}">
+  <input type="text" name="first_name" value="{{author.first_name}}">
   <br><br>
   <label for="">Last Name</label>
   <br>
-  <input type="text"value="{{author.last_name}}">
+  <input type="text" name="last_name" value="{{author.last_name}}">
   <br><br>
   <label for="">Portrait Url</label>
   <br>
-  <input type="text"value="{{author.portrait_url}}">
+  <input type="text" name="portrait_url" value="{{author.portrait_url}}">
   <br><br>
   <label for="">Biography</label>
   <br>
-  <textarea>{{author.biography}}</textarea>
+  <textarea name="biography">{{author.biography}}</textarea>
   <br><br>
   <label>Books</label>
   {{#authorbooks}}
-  <p>{{title}}<a href="/books/{{id}}/delete"/>delete</a></p>
+  <p>{{title}}<a href="/authors/{{id}}/{{author_id}}/removeBook"/>delete</a></p>
   {{/authorbooks}}
   <label for="">Add A Book</label>
   <br>
 
     {{#books}}
-    <input type="checkbox" name="name" value=""> {{this}}<br>
+    <input type="checkbox" name="book_id" value="{{id}}"> {{title}}<br>
     {{/books}}
 
 

@@ -44,16 +44,46 @@ router.get('/', function(req, res, next){
     .then(function(data){
       var books=[];
       for (var i = 0; i < data.length; i++) {
-        books.push({title: data[i].title, id: data[i].id})
+        books.push({title: data[i].title,
+                    id: data[i].id,
+                    author_id: req.params.id})
       }
-      return knex('books').pluck('title')
+      return knex('books').select('title','id')
       .then(function(bookys){
-        console.log(books)
-        res.render('authoredit', {authorbooks: books, books: bookys, author: data[0]})
+        
+        res.render('authoredit', {authorID: req.params.id, authorbooks: books, books: bookys, author: data[0]})
 
       })
     })
   })
+
+  router.post('/:id/edit', function(req, res, next){
+    console.log(req.body);
+    var books = req.body.book_id;
+    var booksArr = books instanceof Array ? books : [books];
+
+    knex('authors')
+    .where({id: req.params.id})
+    .update({
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            portrait_url: req.body.portrait_url,
+            biography: req.body.biography
+    })
+    .returning('id')
+    .then(function(id){
+      var anotherBooksArrFullOfObjects = booksArr.map(function(this_books_id){
+        return ({author_id: id[0], book_id: this_books_id})
+      })
+      return knex('bibliography')
+              .insert(anotherBooksArrFullOfObjects)
+              .then(function(data){
+                res.redirect('/authors')
+              })
+    })
+
+  })
+
 
   router.get('/add', function(req, res, next){
     return knex('books')
@@ -114,6 +144,16 @@ router.get('/', function(req, res, next){
         books.push(data[i].title)
       }
       res.render('authordetail',{books: books, author: data[0]});
+    })
+  })
+
+  router.get("/:idBook/:idAuthor/removeBook", function(req, res, next){
+    knex('bibliography')
+    .where({author_id: req.params.idAuthor, book_id: req.params.idBook})
+    .first()
+    .del()
+    .then(function(){
+      res.redirect('/authors/'+req.params.idAuthor+'/edit')
     })
   })
 
