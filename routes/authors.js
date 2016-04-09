@@ -23,7 +23,6 @@ router.get('/', function(req, res, next){
       .select('books.title', 'bibliography.author_id')
     })
     .then(function(data){
-      console.log(data);
       for (var i = 0; i < authorz.length; i++) {
         for (var j = 0; j < data.length; j++) {
           if (authorz[i].id == data[j].author_id){
@@ -31,7 +30,7 @@ router.get('/', function(req, res, next){
           }
         }
       }
-      console.log(authorz);
+
       res.render('authors', {authors: authorz, books: authorz});
     })
   })
@@ -64,6 +63,31 @@ router.get('/', function(req, res, next){
         booksList.push({id: bookys[i].id, title: bookys[i].title})
       }
       res.render('authoradd', {books: bookys})
+    })
+  })
+
+  router.post('/add', function(req, res, next){
+    var books = req.body.book_id;
+    var booksArr = books instanceof Array ? books : [books];
+
+    knex('authors')
+    .insert({
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      portrait_url: req.body.portrait_url,
+      biography: req.body.biography
+    })
+    .returning('id')
+    .then(function(id){
+      var anotherBooksArrFullOfObject =
+      booksArr.map(function(theBookIdFromTheCheckBox){
+        return ({author_id: id[0], book_id: theBookIdFromTheCheckBox})
+      })
+      return knex('bibliography')
+              .insert(anotherBooksArrFullOfObject)
+              .then(function(data){
+                res.redirect('/authors')
+              })
     })
   })
 
