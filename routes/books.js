@@ -135,16 +135,6 @@ router.post('/:id/edit', function(req, res, next){
 
 })
 
-router.get("/:idAuthor/:idBook/removeAuthor", function(req, res, next){
-  knex('bibliography')
-  .where({author_id: req.params.idAuthor, book_id: req.params.idBook})
-  .first()
-  .del()
-  .then(function(){
-    res.redirect('/books/'+req.params.idBook+'/edit')
-  })
-})
-
 
 router.get('/:id', function (req, res, next){
   console.log(req.params.id);
@@ -164,6 +154,14 @@ router.get('/:id', function (req, res, next){
   })
 })
 
-
+router.get("/:idAuthor/:idBook/removeAuthor", function(req, res, next){
+  knex('bibliography')
+  .where({author_id: req.params.idAuthor, book_id: req.params.idBook})
+  .first()
+  .del()
+  .then(function(){
+    res.redirect('/books/'+req.params.idBook+'/edit')
+  })
+})
 
 module.exports = router;
