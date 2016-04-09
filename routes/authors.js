@@ -84,13 +84,23 @@ router.get('/', function(req, res, next){
         return ({author_id: id[0], book_id: theBookIdFromTheCheckBox})
       })
       return knex('bibliography')
-              .insert(anotherBooksArrFullOfObject)
-              .then(function(data){
-                res.redirect('/authors')
-              })
+      .insert(anotherBooksArrFullOfObject)
+      .then(function(data){
+        res.redirect('/authors')
+      })
     })
   })
 
+  router.get('/:id/delete', function(req, res, next){
+    console.log(req.params.id);
+    knex('authors')
+    .where({id: req.params.id})
+    .first()
+    .del()
+    .then(function(){
+      res.redirect('/authors')
+    })
+  })
 
   router.get('/:id', function (req, res, next){
     return knex('authors')
@@ -107,4 +117,4 @@ router.get('/', function(req, res, next){
     })
   })
 
-module.exports = router;
+  module.exports = router;

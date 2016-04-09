@@ -1,34 +1,32 @@
-<form action="index.html" method="post">
+<form action="/books/{{book.id}}/edit" method="post">
   <label for="">Title</label>
   <br>
-  <input type="text"value="{{book.title}}">
+  <input type="text" name="title" value="{{book.title}}">
   <br><br>
   <label for="">Genre</label>
   <br>
-  <input type="text"value="{{book.genre}}">
+  <input type="text" name="genre" value="{{book.genre}}">
   <br><br>
   <label for="">Cover Url</label>
   <br>
-  <input type="text"value="{{book.cover_url}}">
+  <input type="text" name="cover_url" value="{{book.cover_url}}">
   <br><br>
   <label for="">What is this fuckin' book about, yo?</label>
   <br>
-  <textarea>
-    {{book.description}}
-  </textarea>
+  <textarea name="description">{{book.description}}</textarea>
   <br><br>
   <label for="">Who wrote this fucking thing?</label>
   <br>
   {{#authors}}
-  <p>{{author}} <a href='/authors/{{id}}/delete'>Delete</a></p>
+  <p>{{author}} <a href='/books/{{id}}/{{book_id}}/removeAuthor'>xDelete</a></p>
   {{/authors}}
 
 
     {{#bookauthors}}
-    <input type="checkbox" name="name" value=""> {{first_name}} {{last_name}}<br>
+    <input type="checkbox" name="author_id" value="{{id}}"> {{first_name}} {{last_name}}<br>
     {{/bookauthors}}
 
   </select>
   <br><br>
-  <input type="submit" name="name" value="SEND THAT SHIT">
+  <input type="submit" value="SEND THAT SHIT">
 </form>
